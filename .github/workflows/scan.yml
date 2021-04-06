@@ -12,7 +12,7 @@ jobs:
           remove-haskell: 'true'
 
       - name: Vilicus Scan
-        uses: edersonbrilhante/vilicus-github-action@feature/add-new-params 
+        uses: edersonbrilhante/vilicus-github-action@267a06aba861afc6dc2c7950cf5e4245c2d8b78f
         with:
           image: "${{ github.event.client_payload.image }}"
         id: vilicus-scan
