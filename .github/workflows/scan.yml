@@ -4,6 +4,9 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
       - name: Maximize build space
         uses: easimon/maximize-build-space@v3
         with:
@@ -15,11 +18,7 @@ jobs:
         uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
         with:
           image: "${{ github.event.client_payload.image }}"
-        id: vilicus-scan
       
-      - name: Checkout branch
-        uses: actions/checkout@v2
-
       - name: Upload result to gitlab
         run: | 
           export FILE=/home/runner/work/vilicus-report/vilicus-report/artifacts/results.sarif
