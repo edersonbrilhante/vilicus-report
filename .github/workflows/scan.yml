@@ -4,23 +4,24 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@v3
-        with:
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
+      # - name: Maximize build space
+      #   uses: easimon/maximize-build-space@v3
+      #   with:
+      #     remove-dotnet: 'true'
+      #     remove-android: 'true'
+      #     remove-haskell: 'true'
 
-      - name: Vilicus Scan
-        uses: edersonbrilhante/vilicus-github-action@main
-        with:
-          image: "${{ github.event.client_payload.image }}"
-        id: vilicus-scan
+      # - name: Vilicus Scan
+      #   uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
+      #   with:
+      #     image: "${{ github.event.client_payload.image }}"
+      #   id: vilicus-scan
       
       - name: Upload result to gitlab
         run: |
+          pwd
           ls -R ./
-          # export FILE=${{ steps.vilicus-scan.outputs.file }}
+          # export FILE=./artifacts/results.sarif
           # export PRIVATE_TOKEN=${{ secrets.GITLAB_PRIVATE_TOKEN }}
           # export PROJECT_ID=${{ secrets.GITLAB_PROJECT_ID }}
           # export IMAGE=${{ github.event.client_payload.image }}
