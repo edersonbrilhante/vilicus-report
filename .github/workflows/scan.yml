@@ -17,6 +17,9 @@ jobs:
           image: "${{ github.event.client_payload.image }}"
         id: vilicus-scan
       
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
       - name: Upload result to gitlab
         run: | 
           export FILE=/home/runner/work/vilicus-report/vilicus-report/artifacts/results.sarif
