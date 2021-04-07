@@ -1,0 +1,31 @@
+name: 'Vilicus Report'
+description: 'Push file report to vilicus report db on gitlab'
+author: 'Ederson Brilhante'
+inputs:
+  private-token:
+    description: 'private token'
+    required: true
+  project-id:
+    description: 'project id'
+    required: true
+  image:
+    description: 'image reference'
+    required: true
+  file:
+    description: 'file name'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: report
+      run: |
+        export PRIVATE_TOKEN=${{ inputs.private-token }}
+        export PROJECT_ID=${{ inputs.project-id }}
+        export IMAGE=${{ inputs.image }}
+        export FILE=${{ inputs.file }}
+        pip install python-gitlab https://github.com/realityone/docker-image-py/archive/master.zip
+        python commit.py
+      shell: bash
+branding:
+  icon: 'shield'
+  color: 'green'

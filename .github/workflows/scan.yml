@@ -4,9 +4,6 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-
       - name: Maximize build space
         uses: easimon/maximize-build-space@v3
         with:
@@ -18,12 +15,14 @@ jobs:
         uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
         with:
           image: "${{ github.event.client_payload.image }}"
-      
-      - name: Upload result to gitlab
-        run: | 
-          export FILE=/home/runner/work/vilicus-report/vilicus-report/artifacts/results.sarif
-          export PRIVATE_TOKEN=${{ secrets.GITLAB_PRIVATE_TOKEN }}
-          export PROJECT_ID=${{ secrets.GITLAB_PROJECT_ID }}
-          export IMAGE=${{ github.event.client_payload.image }}
-          pip install python-gitlab https://github.com/realityone/docker-image-py/archive/master.zip
-          python commit.py
+
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
+      - name: Scan
+        uses: ./
+        with:
+          file: "./artifacts/results.sarif"
+          private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
+          project-id: ${{ secrets.GITLAB_PROJECT_ID }}
+          image: ${{ github.event.client_payload.image }}
