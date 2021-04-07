@@ -18,6 +18,8 @@ jobs:
 
       - name: Checkout branch
         uses: actions/checkout@v2
+        with:
+          clean: false
 
       - name: Scan
         uses: ./
