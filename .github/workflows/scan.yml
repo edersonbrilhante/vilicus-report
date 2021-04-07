@@ -4,21 +4,17 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      # - name: Maximize build space
-      #   uses: easimon/maximize-build-space@v3
-      #   with:
-      #     remove-dotnet: 'true'
-      #     remove-android: 'true'
-      #     remove-haskell: 'true'
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v3
+        with:
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
 
-      # - name: Vilicus Scan
-      #   uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
-      #   with:
-      #     image: "${{ github.event.client_payload.image }}"
-
-      - run: |
-          mkdir artifacts
-          wget -O artifacts/results.sarif https://gitlab.com/edersonbrilhante/vilicus-reports-db/-/raw/main/docker.io/_/python/latest.json
+      - name: Vilicus Scan
+        uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
+        with:
+          image: "${{ github.event.client_payload.image }}"
 
       - uses: actions/upload-artifact@v2
         with:
@@ -36,13 +32,11 @@ jobs:
         with:
           name: results
         id: download
-            
-      - run: cat ${{steps.download.outputs.download-path}}/results.sarif 
 
-      # - name: Scan
-      #   uses: ./
-      #   with:
-      #     file: ${{steps.download.outputs.download-path}}
-      #     private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
-      #     project-id: ${{ secrets.GITLAB_PROJECT_ID }}
-      #     image: ${{ github.event.client_payload.image }}
+      - name: Scan
+        uses: ./
+        with:
+          file: ${{steps.download.outputs.download-path}}/results.sarif
+          private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
+          project-id: ${{ secrets.GITLAB_PROJECT_ID }}
+          image: ${{ github.event.client_payload.image }}
