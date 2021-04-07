@@ -37,7 +37,7 @@ jobs:
           name: results
         id: download
             
-      - run: ls -R ${{steps.download.outputs.download-path}}
+      - run: cat ${{steps.download.outputs.download-path}}/results.sarif 
 
       # - name: Scan
       #   uses: ./
