@@ -36,7 +36,7 @@ jobs:
       - name: Scan
         uses: ./
         with:
-          file: "./artifacts/results.sarif"
+          file: ${{ github.workspace }}/artifacts/results.sarif"
           private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
           project-id: ${{ secrets.GITLAB_PROJECT_ID }}
           image: ${{ github.event.client_payload.image }}
