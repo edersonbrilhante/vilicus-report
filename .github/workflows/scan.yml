@@ -19,9 +19,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: results
-          path: ${{ github.workspace }}/artifacts/results.sarif
-          
-      - run: cat ${{ github.workspace }}/artifacts/results.sarif
+          path: ${{ github.workspace }}/artifacts/results.sarif          
           
   report:
     needs: scan
@@ -35,7 +33,7 @@ jobs:
           name: results
           path: ${{ github.workspace }}/artifacts/results.sarif
       
-      - run: cat ${{ github.workspace }}/artifacts/results.sarif
+      - run: cat ${{ github.workspace }}/artifacts/*
 
       - name: Scan
         uses: ./
