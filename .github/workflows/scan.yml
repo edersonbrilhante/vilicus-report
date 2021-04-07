@@ -1,34 +1,34 @@
 name: Vilicus Scan
 on: [repository_dispatch]
 jobs:
-  scan:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@v3
-        with:
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
+  # scan:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Maximize build space
+  #       uses: easimon/maximize-build-space@v3
+  #       with:
+  #         remove-dotnet: 'true'
+  #         remove-android: 'true'
+  #         remove-haskell: 'true'
 
-      - name: Vilicus Scan
-        uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
-        with:
-          image: "${{ github.event.client_payload.image }}"
+  #     - name: Vilicus Scan
+  #       uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
+  #       with:
+  #         image: "${{ github.event.client_payload.image }}"
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: results
-          path: artifacts/results.sarif
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: results
+  #         path: artifacts/results.sarif
           
   report:
-    needs: scan
+    # needs: scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v2
         with:
           name: results
           path: artifacts/results.sarif
