@@ -16,11 +16,23 @@ jobs:
         with:
           image: "${{ github.event.client_payload.image }}"
 
+      - uses: actions/upload-artifact@master
+        with:
+          name: results
+          path: artifacts/results.sarif
+          
+  report:
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout branch
         uses: actions/checkout@v2
-        with:
-          clean: false
 
+      - uses: actions/download-artifact@master
+        with:
+          name: results
+          path: artifacts/results.sarif
+      
       - name: Scan
         uses: ./
         with:
