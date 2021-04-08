@@ -1,4 +1,5 @@
 import json
+import base64
 import requests
 import os.path
 from googleapiclient.discovery import build
@@ -10,8 +11,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 GS_SPREADSHEET_ID = os.environ['GS_SPREADSHEET_ID']
 GS_RANGE_NAME = os.environ['GS_RANGE_NAME']
-GS_CREDENTIALS_INFO = json.loads(os.environ['GS_CREDENTIALS_INFO'])
-
+GS_CREDENTIALS_INFO = json.loads(base64.b64decode(os.environ['GS_CREDENTIALS_INFO']))
 GH_URL = os.environ['GH_URL']
 GH_TOKEN = os.environ['GH_TOKEN']
 
@@ -56,7 +56,7 @@ def remove_rows(service, images, sheet_id):
             }
         }
     ]
-    update_spreadsheet_data = {"requests": spreadsheet_data} # Modified
+    update_spreadsheet_data = {"requests": spreadsheet_data}
     updating = service.spreadsheets().batchUpdate(
         spreadsheetId=GS_SPREADSHEET_ID, body=update_spreadsheet_data)
     updating.execute()

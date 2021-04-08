@@ -1,4 +1,4 @@
-name: Vilicus Scan
+name: Report
 on: [repository_dispatch]
 jobs:
   scan:
