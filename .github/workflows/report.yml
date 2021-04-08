@@ -17,7 +17,7 @@ jobs:
           image: "${{ github.event.client_payload.image }}"
 
       - name: Update report
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: results
           path: ${{ github.workspace }}/artifacts/results.sarif          
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download report
-      - uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: results
         id: download

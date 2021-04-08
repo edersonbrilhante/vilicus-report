@@ -24,7 +24,7 @@ runs:
       run: |
         export GS_SPREADSHEET_ID=${{ inputs.gs-spreadsheet-id }}
         export GS_RANGE_NAME=${{ inputs.gs-range-name }}
-        export GS_CREDENTIALS_INFO='${{ inputs.gs-credentials-info }}'
+        export GS_CREDENTIALS_INFO=${{ inputs.gs-credentials-info }}
         export GH_URL=${{ inputs.gh-url }}
         export GH_TOKEN=${{ inputs.gh-token }}
         pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
