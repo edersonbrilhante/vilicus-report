@@ -36,7 +36,7 @@ jobs:
         id: download
 
       - name: Save report in gitlab
-        uses: ./.github/actions/report
+        uses: ./
         with:
           file: ${{steps.download.outputs.download-path}}/results.sarif
           private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}

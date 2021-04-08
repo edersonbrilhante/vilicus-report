@@ -1,0 +1,35 @@
+name: 'Vilicus Report Schedule'
+description: 'Get list of images and schedule scans for them'
+author: 'Ederson Brilhante'
+inputs:
+  gs-spreadsheet-id:
+    description: 'gs spreadsheet id'
+    required: true
+  gs-range-name:
+    description: 'gs range name'
+    required: true
+  gs-credentials-info:
+    description: 'gs credentials info'
+    required: true
+  gh-url:
+    description: 'gh url'
+    required: true
+  gh-token:
+    description: 'gh token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: schedule
+      run: |
+        export GS_SPREADSHEET_ID=${{ inputs.gs-spreadsheet-id }}
+        export GS_RANGE_NAME=${{ inputs.gs-range-name }}
+        export GS_CREDENTIALS_INFO=${{ inputs.gs-credentials-info }}
+        export GH_URL=${{ inputs.gh-url }}
+        export GH_TOKEN=${{ inputs.gh-token }}
+        pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
+        python schedule-jobs.py
+      shell: bash
+branding:
+  icon: 'shield'
+  color: 'green'
