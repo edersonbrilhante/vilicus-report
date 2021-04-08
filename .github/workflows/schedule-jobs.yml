@@ -1,44 +1,23 @@
-name: Vilicus Scan
-on: [repository_dispatch]
-jobs:
-  scan:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@v3
-        with:
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-
-      - name: Vilicus Scan
-        uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
-        with:
-          image: "${{ github.event.client_payload.image }}"
-
-      - name: Update report
-      - uses: actions/upload-artifact@v2
-        with:
-          name: results
-          path: ${{ github.workspace }}/artifacts/results.sarif          
-          
-  report:
+name: Schedule
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron:  '1 1 * * *'
+jobs:             
+  run:
     needs: scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
 
-      - name: Download report
-      - uses: actions/download-artifact@v2
+      - name: Run schedule jobs
+        uses: ./.github/actions/schedule
         with:
-          name: results
-        id: download
-
-      - name: Save report in gitlab
-        uses: ./
-        with:
-          file: ${{steps.download.outputs.download-path}}/results.sarif
-          private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
-          project-id: ${{ secrets.GITLAB_PROJECT_ID }}
-          image: ${{ github.event.client_payload.image }}
+          gs-spreadsheet-id: ${{ secrets.GS_SPREADSHEET_ID }}
+          gs-range-name: ${{ secrets.GS_RANGE_NAME }}
+          gs-credentials-info: ${{ secrets.GS_CREDENTIALS_INFO }}
+          gh-url: ${{ secrets.GH_URL }}
+          gh-token: ${{ secrets.GH_TOKEN }}
