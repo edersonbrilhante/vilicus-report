@@ -15,12 +15,14 @@ jobs:
         uses: edersonbrilhante/vilicus-github-action@feature/add-new-params
         with:
           image: "${{ github.event.client_payload.image }}"
+          template: /opt/vilicus/contrib/vilicus.tpl
+          output: vilicus.json
 
       - name: Update report
         uses: actions/upload-artifact@v2
         with:
           name: results
-          path: ${{ github.workspace }}/artifacts/results.sarif          
+          path: ${{ github.workspace }}/artifacts/vilicus.json
           
   report:
     needs: scan
@@ -38,7 +40,7 @@ jobs:
       - name: Save report in gitlab
         uses: ./.github/actions/report
         with:
-          file: ${{steps.download.outputs.download-path}}/results.sarif
+          file: ${{steps.download.outputs.download-path}}/vilicus.json
           private-token: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
           project-id: ${{ secrets.GITLAB_PROJECT_ID }}
           image: ${{ github.event.client_payload.image }}
